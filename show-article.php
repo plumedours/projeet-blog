@@ -12,6 +12,7 @@ $id = $_GET['id'] ?? '';
 
 if (!$id) {
   header('Location: /');
+  exit;
 } else {
   $article = $articleDB->fetchOne($id);
   $comment = $commentDB->fetchOne($id);

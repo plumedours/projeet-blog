@@ -34,8 +34,9 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       if (!password_verify($password, $user['password'])) {
         $errors['password'] = ERROR_PASSWORD_MISMATCH;
       } else {
-        $authDB->login($user['id']);
+        $authDB->login($user['id'], $user['status']);
         header('Location: /');
+        exit;
       }
     }
   }

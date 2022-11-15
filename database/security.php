@@ -17,24 +17,28 @@ class AuthDB
       :firstname,
       :lastname,
       :email,
-      :password
+      :password,
+      :status
     )');
 
     $this->statementReadSession = $pdo->prepare('SELECT * FROM session WHERE id=:id');
     $this->statementReadUser = $pdo->prepare('SELECT * FROM user WHERE id=:id');
     $this->statementReadUserFromEmail = $pdo->prepare('SELECT * FROM user WHERE email=:email');
+    $this->statementReadUserFromStatus = $pdo->prepare('SELECT * FROM user WHERE status=:status');
     $this->statementCreateSession = $pdo->prepare('INSERT INTO session VALUES (
       :sessionid,
-      :userid
+      :userid,
+      :userstatus
     )');
     $this->statementDeleteSession = $pdo->prepare('DELETE FROM session WHERE id=:id');
   }
 
-  function login(string $userId): void
+  function login(string $userId, $userstatus): void
   {
     $sessionId = bin2hex(random_bytes(32));
     $this->statementCreateSession->bindValue(':userid', $userId);
     $this->statementCreateSession->bindValue(':sessionid', $sessionId);
+    $this->statementCreateSession->bindValue(':userstatus', $userstatus);
     $this->statementCreateSession->execute();
     $signature = hash_hmac('sha256', $sessionId, 'Je suis un ours');
     setcookie('session', $sessionId, time() + 60 * 60 * 24 * 14, '', '', false, true);
@@ -50,6 +54,7 @@ class AuthDB
     $this->statementRegister->bindValue(':lastname', $user['lastname']);
     $this->statementRegister->bindValue(':email', $user['email']);
     $this->statementRegister->bindValue(':password', $hashedPassword);
+    $this->statementRegister->bindValue(':status', $user['status']);
     $this->statementRegister->execute();
     return;
   }

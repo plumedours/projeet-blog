@@ -3,9 +3,6 @@ require_once __DIR__ . '/database/database.php';
 $authDB = require_once __DIR__ . '/database/security.php';
 $currentUser = $authDB->isLoggedin();
 
-// if (!$currentUser) {
-//   header('Location: /');
-// }
 $commentDB = require_once __DIR__ . '/database/models/CommentsDB.php';
 $articleDB = require_once __DIR__ . '/database/models/ArticleDB.php';
 const ERROR_REQUIRED = 'Veuillez renseigner ce champ';
@@ -24,12 +21,7 @@ if ($id) {
   $date = time();
   $article = $articleDB->fetchOne($id);
   $comment = $commentDB->fetchOne($id);
-//   if ($comment['author'] !== $currentUser['id']) {
-//     header('Location: /');
-//   }
   $articleID = array_search($id, array_column($article, 'id'));
-//   $content = $comment['content'];
-//   $date = time();
 }
 
 // echo($articleID);
@@ -66,6 +58,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       ]);
     // }
     header('Location: /');
+    exit;
   }
 }
 

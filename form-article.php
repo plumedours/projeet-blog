@@ -3,8 +3,9 @@ require_once __DIR__ . '/database/database.php';
 $authDB = require_once __DIR__ . '/database/security.php';
 $currentUser = $authDB->isLoggedin();
 
-if (!$currentUser) {
+if (!$currentUser | $currentUser['status'] !== 'admin') {
   header('Location: /');
+  exit;
 }
 $articleDB = require_once __DIR__ . '/database/models/ArticleDB.php';
 const ERROR_REQUIRED = 'Veuillez renseigner ce champ';
@@ -26,6 +27,7 @@ if ($id) {
   $article = $articleDB->fetchOne($id);
   if ($article['author'] !== $currentUser['id']) {
     header('Location: /');
+    exit;
   }
   $title = $article['title'];
   $image = $article['image'];
@@ -90,6 +92,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       ]);
     }
     header('Location: /');
+    exit;
   }
 }
 

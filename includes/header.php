@@ -10,9 +10,11 @@ $currentUser = $currentUser ?? false;
     </div>
     <ul class="header-mobile-list">
       <?php if ($currentUser) : ?>
-      <li class=<?= $_SERVER['REQUEST_URI'] === '/form-article.php' ? 'active' : '' ?>>
+        <?php if ($currentUser['status'] === 'admin') : ?>
+        <li class="<?= $_SERVER['REQUEST_URI'] === '/form-article.php' ? 'active' : '' ?>">
         <a href="/form-article.php">Écrire un article</a>
-      </li>
+        </li>
+      <?php endif; ?>
       <li>
         <a href="/auth-logout.php">Déconnexion</a>
       </li>
@@ -20,10 +22,10 @@ $currentUser = $currentUser ?? false;
         <a href="/profile.php">Mon espace</a>
       </li>
       <?php else : ?>
-      <li class=<?= $_SERVER['REQUEST_URI'] === '/auth-register.php' ? 'active' : '' ?>>
+      <li class="<?= $_SERVER['REQUEST_URI'] === '/auth-register.php' ? 'active' : '' ?>">
         <a href="/auth-register.php">Inscription</a>
       </li>
-      <li class=<?= $_SERVER['REQUEST_URI'] === '/auth-login.php' ? 'active' : '' ?>>
+      <li class="<?= $_SERVER['REQUEST_URI'] === '/auth-login.php' ? 'active' : '' ?>">
         <a href="/auth-login.php">Connexion</a>
       </li>
       <?php endif; ?>
@@ -32,9 +34,12 @@ $currentUser = $currentUser ?? false;
 
   <ul class="header-menu">
   <?php if ($currentUser) : ?>
-    <li class=<?= $_SERVER['REQUEST_URI'] === '/form-article.php' ? 'active' : '' ?>>
+    <?php if ($currentUser['status'] === 'admin') : ?>
+    <li class="<?= $_SERVER['REQUEST_URI'] === '/form-article.php' ? 'active' : '' ?>">
     <a href="/form-article.php">Écrire un article</a>
     </li>
+   <?php endif; ?>
+
     <li>
     <a href="/auth-logout.php">Déconnexion</a>
     </li>
@@ -43,10 +48,10 @@ $currentUser = $currentUser ?? false;
     <a href="/profile.php"><?= $currentUser['firstname'][0] . $currentUser['lastname'][0] ?></a>
     </li>
   <?php else : ?>
-    <li class=<?= $_SERVER['REQUEST_URI'] === '/auth-register.php' ? 'active' : '' ?>>
+    <li class="<?= $_SERVER['REQUEST_URI'] === '/auth-register.php' ? 'active' : '' ?>">
     <a href="/auth-register.php">Inscription</a>
     </li>
-    <li class=<?= $_SERVER['REQUEST_URI'] === '/auth-login.php' ? 'active' : '' ?>>
+    <li class="<?= $_SERVER['REQUEST_URI'] === '/auth-login.php' ? 'active' : '' ?>">
     <a href="/auth-login.php">Connexion</a>
     </li>
   <?php endif; ?>

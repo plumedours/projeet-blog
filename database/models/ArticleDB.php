@@ -6,7 +6,8 @@ class ArticleDB
   private PDOStatement $statementDeleteOne;
   private PDOStatement $statementReadOne;
   private PDOStatement $statementReadAll;
-  
+  private PDOStatement $statementReadUserAll;
+
   function __construct(private PDO $pdo)
   {
     $this->statementCreateOne = $pdo->prepare('
@@ -37,6 +38,7 @@ class ArticleDB
     $this->statementReadOne = $pdo->prepare('SELECT article.*, user.firstname, user.lastname FROM article LEFT JOIN user ON article.author = user.id WHERE article.id=:id');
     $this->statementReadAll = $pdo->prepare('SELECT article.*, user.firstname, user.lastname FROM article LEFT JOIN user ON article.author = user.id');
     $this->statementDeleteOne = $pdo->prepare('DELETE FROM article WHERE id=:id');
+    $this->statementReadUserAll = $pdo->prepare('SELECT * FROM article WHERE author=:authorId');
   }
 
 
@@ -81,6 +83,13 @@ class ArticleDB
     $this->statementUpdateOne->bindValue(':author', $article['author']);
     $this->statementUpdateOne->execute();
     return $article;
+  }
+
+  public function fetchUserArticle(string $authorId): array
+  {
+    $this->statementReadUserAll->bindValue(':authorId', $authorId);
+    $this->statementReadUserAll->execute();
+    return $this->statementReadUserAll->fetchAll();
   }
 }
 

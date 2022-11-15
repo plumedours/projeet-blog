@@ -6,4 +6,5 @@ $sessionId = $_COOKIE['session'];
 if ($sessionId) {
   $authDB->logout($sessionId);
   header('Location: /auth-login.php');
+  exit;
 }

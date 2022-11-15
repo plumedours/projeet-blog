@@ -29,7 +29,6 @@ if (count($articles)) {
   }, []);
 }
 
-
 ?>
 
 

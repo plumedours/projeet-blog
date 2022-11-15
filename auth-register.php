@@ -58,9 +58,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
       'firstname' => $firstname,
       'lastname' => $lastname,
       'email' => $email,
-      'password' => $password
+      'password' => $password,
+      'status' => 'user'
     ]);
     header('Location: /');
+    exit;
   }
 }
 

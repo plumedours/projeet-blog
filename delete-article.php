@@ -16,3 +16,4 @@ if ($currentUser) {
 }
 
 header('Location: /');
+exit;

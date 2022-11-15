@@ -8,6 +8,7 @@ $currentUser = $authDB->isLoggedin();
 
 if (!$currentUser) {
   header('Location: /');
+  exit;
 }
 
 $articles = $articleDB->fetchUserArticle($currentUser['id']);
