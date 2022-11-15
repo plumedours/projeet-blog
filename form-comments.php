@@ -36,7 +36,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
   ]);
   $content = $_POST['content'] ?? '';
   $articleID = array_search($id, array_column($article, 'id'));
-  $date = time();
+  // $date = date('D/M/Y');
 
   if (!$content) {
     $errors['content'] = ERROR_REQUIRED;

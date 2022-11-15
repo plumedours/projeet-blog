@@ -184,7 +184,7 @@ li.header-profile:hover {
 
 /* CONTENT */
 .content {
-    max-width: 100rem;
+    max-width: 130rem;
     width: 100%;
     flex: 1;
     display: flex;

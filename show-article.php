@@ -49,6 +49,7 @@ $getComments = $commentDB->fetchArticleComments($article['id']);
       </div>
     <?php endif; ?>
     </div>
+    <div class="container-comments">
     <?php if (!$currentUser): ?>
     <a href="/auth-login.php">Ajouter un commentaire</a>
     <?php else: ?>
@@ -57,12 +58,13 @@ $getComments = $commentDB->fetchArticleComments($article['id']);
     <?php foreach ($getComments as $num) :  ?>
     <div class="comments-container">
       <div class="comments-block">
-        <p class="comment-date"><?= $num['date'] ?></p>
+        <p class="comment-date"><?= date('d/m/Y - H:i:s',strtotime($num['date'])) ?></p>
         <p class="comment-content"><?= $num['content'] ?></p>
         <p class="comment-author"><?= $num['firstname'] . ' ' . $num['lastname'] ?></p>
       </div>
     </div>
     <?php endforeach; ?>
+    </div>
   </div>
   <?php require_once 'includes/footer.php' ?>
   </div>

@@ -12,7 +12,8 @@
   font-weight: 400;
 }
 
-.article-author, .comment-author {
+.article-author,
+.comment-author {
   text-align: right;
   font-size: 1rem;
   font-weight: 700;
@@ -45,11 +46,21 @@
   justify-content: flex-end;
 }
 
+.container-comments {
+  width: 80%;
+}
+
+.container-comments a {
+  font-weight: 700;
+  font-size: 1.5rem;
+}
+
 .comments-container {
   border: var(--border);
   box-shadow: var(--box-shadow);
   background-color: white;
   padding: 1rem;
+  margin-top: 1rem;
 }
 
 .comment-date {
@@ -57,4 +68,16 @@
   font-weight: 700;
   font-style: italic;
   padding-bottom: 1rem;
+}
+
+@media only screen and (max-width: 860px) {
+  .article-cover-img {
+    display: flex;
+    height: 20rem;
+    width: 100%;
+    border-radius: 3px;
+  }
+  .article-container h1 {
+    font-size: 3rem;
+  }
 }

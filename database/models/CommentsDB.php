@@ -17,7 +17,7 @@ class CommentDB {
             author,
             article_id
           ) VALUES (
-            :date,
+            NOW(),
             :content,
             :author,
             :article_id
@@ -59,7 +59,7 @@ class CommentDB {
   }
   public function createOne($comments): array
   {
-    $this->statementCreateOne->bindValue(':date', $comments['date']);
+    // $this->statementCreateOne->bindValue('NOW()', $comments['date']);
     $this->statementCreateOne->bindValue(':content', $comments['content']);
     $this->statementCreateOne->bindValue(':author', $comments['author']);
     $this->statementCreateOne->bindValue(':article_id', $comments['article_id']);
