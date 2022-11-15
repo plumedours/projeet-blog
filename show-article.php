@@ -6,10 +6,8 @@ $currentUser = $authDB->isLoggedin();
 $articleDB = require_once __DIR__ . '/database/models/ArticleDB.php';
 $commentDB = require_once __DIR__ . '/database/models/CommentsDB.php';
 
-$getComments = $commentDB->fetchAll();
-$comments = [];
-
 $_GET = filter_input_array(INPUT_GET, FILTER_SANITIZE_FULL_SPECIAL_CHARS);
+
 $id = $_GET['id'] ?? '';
 
 if (!$id) {
@@ -18,18 +16,11 @@ if (!$id) {
   $article = $articleDB->fetchOne($id);
   $comment = $commentDB->fetchOne($id);
 }
+$getComments = $commentDB->fetchArticleComments($article['id']);
 
-if (count($getComments)) {
-  $comtemp = array_map(fn ($a) => $a['article_id'],  $getComments);
-  $comments = array_reduce($comtemp, function ($acc, $com) {
-  if (isset($acc[$com])) {
-    $acc[$com]++;
-  } else {
-    $acc[$com] = 1;
-  }
-  return $acc;
-});
-};
+var_dump($getComments);
+
+var_dump($getComments['lastname']);
 ?>
 
 
@@ -65,13 +56,12 @@ if (count($getComments)) {
     <?php else: ?>
     <a href="/form-comments.php?id=<?= $article['id'] ?>">Ajouter un commentaire</a>
     <?php endif; ?>
-    <?php foreach ($comments as $com => $num) :  ?>
-      <h2><?= $com ?></h2>
+    <?php foreach ($getComments as $num) :  ?>
     <div class="comments-container">
       <div class="comments-block">
-        <p class="comment-date"><?= $comment['date'] ?></p>
-        <p class="comment-content"><?= $comment['content'] ?></p>
-        <p class="comment-author"><?= $comment['firstname'] . ' ' . $comment['lastname'] ?></p>
+        <p class="comment-date"><?= $num['date'] ?></p>
+        <p class="comment-content"><?= $num['content'] ?></p>
+        <p class="comment-author"><?= $num['firstname'] . ' ' . $num['lastname'] ?></p>
       </div>
     </div>
     <?php endforeach; ?>

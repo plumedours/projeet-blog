@@ -6,7 +6,7 @@ class CommentDB {
     private PDOStatement $statementDeleteOne;
     private PDOStatement $statementReadOne;
     private PDOStatement $statementReadAll;
-    private PDOStatement $statementReadUserAll;
+    private PDOStatement $statementAllComments;
 
     function __construct(private PDO $pdo)
     {
@@ -35,7 +35,7 @@ class CommentDB {
     $this->statementReadOne = $pdo->prepare('SELECT comments.*, user.firstname, user.lastname FROM comments LEFT JOIN user ON comments.author = user.id WHERE comments.id=:article_id');
     $this->statementReadAll = $pdo->prepare('SELECT comments.*, user.firstname, user.lastname FROM comments LEFT JOIN user ON comments.author = user.id');
     $this->statementDeleteOne = $pdo->prepare('DELETE FROM comments WHERE id=:id');
-    $this->statementReadUserAll = $pdo->prepare('SELECT * FROM comments WHERE author=:authorId');
+    $this->statementAllComments = $pdo->prepare('SELECT comments.*, user.firstname, user.lastname FROM comments JOIN user ON user.id = comments.author WHERE article_id = :article_id');
     }
 
     public function fetchAll(): array
@@ -76,11 +76,10 @@ class CommentDB {
     return $comments;
   }
 
-  public function fetchUserComment(string $authorId): array
+  public function fetchArticleComments(string $id): array
   {
-    $this->statementReadUserAll->bindValue(':authorId', $authorId);
-    $this->statementReadUserAll->execute();
-    return $this->statementReadUserAll->fetchAll();
+    $this->statementAllComments->execute([':article_id' => $id]);
+    return $this->statementAllComments->fetchAll();
   }
 }
 
