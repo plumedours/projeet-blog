@@ -18,9 +18,6 @@ if (!$id) {
 }
 $getComments = $commentDB->fetchArticleComments($article['id']);
 
-var_dump($getComments);
-
-var_dump($getComments['lastname']);
 ?>
 
 
